@@ -55,5 +55,6 @@ gulp.task('scripts', (cb) => {
       }));
     }))
     .pipe(gulp.dest(`dist/${args.vendor}/scripts`))
-    .pipe(gulpif(args.watch, livereload()));
+    .pipe(gulpif(args.watch, livereload()))
+
 });

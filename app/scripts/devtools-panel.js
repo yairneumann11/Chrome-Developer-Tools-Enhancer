@@ -1,8 +1,21 @@
 'use strict';
+import React from "react";
+import ReactDOM from "react-dom";
+import Communication from "./communication";
+import Events from "./events";
+import DOMElements from "./DOMElements";
 
 
 (function(topWindow, topDocument, GLOBAL, configurations){
 
+  ReactDOM.render(
+    <h1>Hello, world!</h1>,
+    document.getElementById('example')
+  );
+
+  let mainElements = new DOMElements(window);
+
+  console.log(mainElements);
 
   let pdw = {};
 
@@ -23,102 +36,102 @@
 
   let consoleContainer = topDocument.getElementById('console-prompt');
 
-  function getInspectedWindowURL(){
+  // function getInspectedWindowURL(){
+  //
+  //
+  //     return new Promise((resolve, reject) => {
+  //
+  //       chrome.runtime.sendMessage(
+  //         {
+  //           devtools_get_url: true,
+  //           tab_Id:chrome.devtools.inspectedWindow.tabId
+  //         }, (response) =>
+  //         {
+  //           resolve(response);
+  //         });
+  //
+  //     });
+  //
+  // }
 
+  // function getCode(url){
+  //
+  //
+  //   return new Promise((resolve, reject) => {
+  //
+  //     if( url )
+  //     {
+  //       chrome.storage.sync.get(url, (response)=>{
+  //         resolve(response);
+  //       });
+  //
+  //     }else{
+  //       chrome.storage.sync.get((response)=>{
+  //         resolve(response);
+  //       });
+  //
+  //     }
+  //
+  //
+  //   });
+  //
+  // }
 
-      return new Promise((resolve, reject) => {
+  // function setUrlCode(url,code, cb){
+  //
+  //   getCode(url).then((savedCode)=>{
+  //     let timestamp = (new Date).getTime();
+  //
+  //     if( Object.keys(savedCode).length === 0 )
+  //     {
+  //       code = timestamp + "$$_" + code;
+  //
+  //     }else{
+  //
+  //       let newCode = code + "@@" + timestamp + "$$_" + savedCode[url];
+  //       code = newCode;
+  //     }
+  //
+  //     let obj = {};
+  //     obj[url]= code;
+  //     chrome.storage.sync.set(obj, () => {
+  //       cb();
+  //     });
+  //   });
+  //
+  //   // localStorage.setItem(url, code);
+  //
+  // }
 
-        chrome.runtime.sendMessage(
-          {
-            devtools_get_url: true,
-            tab_Id:chrome.devtools.inspectedWindow.tabId
-          }, (response) =>
-          {
-            resolve(response);
-          });
-
-      });
-
-  }
-
-  function getCode(url){
-
-
-    return new Promise((resolve, reject) => {
-
-      if( url )
-      {
-        chrome.storage.sync.get(url, (response)=>{
-          resolve(response);
-        });
-
-      }else{
-        chrome.storage.sync.get((response)=>{
-          resolve(response);
-        });
-
-      }
-
-
-    });
-
-  }
-
-  function setUrlCode(url,code, cb){
-
-    getCode(url).then((savedCode)=>{
-      let timestamp = (new Date).getTime();
-
-      if( Object.keys(savedCode).length === 0 )
-      {
-        code = timestamp + "$$_" + code;
-
-      }else{
-
-        let newCode = code + "@@" + timestamp + "$$_" + savedCode[url];
-        code = newCode;
-      }
-      debugger;
-      let obj = {};
-      obj[url]= code;
-      chrome.storage.sync.set(obj, () => {
-        cb();
-      });
-    });
-
-    // localStorage.setItem(url, code);
-
-  }
-
-  function codeEvalListener(e, code){
-
-
-    if( e.keyCode == 13 )
-    {
-
-
-      let codeMessages  = topDocument.querySelector('.console-group-messages');
-      if( codeMessages && codeMessages.children &&  codeMessages.children.length){
-        let messages = codeMessages.children;
-        let lstMessage = messages[messages.length - 1];
-
-        if( lstMessage.className.indexOf("console-error-level") > -1) throw "unvalid JS";
-      }
-
-      getInspectedWindowURL().then((tab)=>{
-        console.log(tab.url);
-        console.log(code);
-        let tabUrl = tab.url;
-        if( tab && tab.url && code )
-        {
-          setUrlCode(tabUrl, code, ()=>{
-            console.log("code saved");
-          });
-        }
-      });
-
-    }
-  }
+  // function codeEvalListener(e, code){
+  //
+  //
+  //   if( e.keyCode == 13 )
+  //   {
+  //
+  //
+  //     let codeMessages  = topDocument.querySelector('.console-group-messages');
+  //     if( codeMessages && codeMessages.children &&  codeMessages.children.length){
+  //       let messages = codeMessages.children;
+  //       let lstMessage = messages[messages.length - 1];
+  //
+  //       if( lstMessage.className.indexOf("console-error-level") > -1) throw "unvalid JS";
+  //     }
+  //
+  //     Communication.getTab().then((tab)=>{
+  //       console.log(tab.url);
+  //       console.log(code);
+  //       let tabUrl = tab.url;
+  //       if( tab && tab.url && code )
+  //       {
+  //         setUrlCode(tabUrl, code, ()=>{
+  //           console.log("code saved");
+  //         });
+  //       }
+  //     });
+  //
+  //   }
+  // }
 
   function setEventListener(){
     consoleContainer.addEventListener('keydown', (e)=>{
@@ -126,19 +139,19 @@
       let code          = consoleContainer.innerText;
 
       setTimeout(()=>{
-        codeEvalListener(e, code);
+        Events.codeEvalListener(mainElements, e, code);
       },100)
     });
   }
 
   function removeEventListener(){
-    consoleContainer.removeEventListener('keydown', codeEvalListener);
+    consoleContainer.removeEventListener('keydown', Events.codeEvalListener);
   }
 
 
 
   function runCode(url) {
-    getCode(url).then((code)=>{
+    Communication.getCode(url).then((code)=>{
       if ( Object.keys(code).length != 0 ){
         try{
         }catch(e){
@@ -168,7 +181,11 @@
     }
   }
 
-  function buildTable(site_code) {
+  function disectCode(code){
+
+  }
+
+  function buildTable(sites_code) {
 
     removeTable();
 
@@ -192,15 +209,17 @@
 
     table.appendChild(tbdy);
 
-    for( let site in site_code )
+    for( let site in sites_code )
     {
-      let siteCodes                 = site_code[site];
+      let siteCodes                 = sites_code[site];
       let site_row                  = tbdy.insertRow();
-
+      let sitesCodeArr              = siteCodes.split("@@");
       let cell_site_name_row        = site_row.insertCell();
       let cell_site_code_row        = site_row.insertCell();
       cell_site_name_row.innerText  = site;
       cell_site_code_row.innerText  = siteCodes.split("@@");
+
+
 
     }
 
@@ -213,7 +232,7 @@
   }
 
   function populateHistory() {
-    getCode().then((code)=>{
+    Communication.getCode().then((code)=>{
       let table = buildTable(code);
 
       document.querySelector("main").appendChild(table);
@@ -223,10 +242,8 @@
   pdw.init = function(){
 
     alert("init");
-
-
-    getInspectedWindowURL().then((tab)=> {
-
+    Communication.getTab().then( (tab)=>{
+      console.log(tab);
       if(!tab || !tab.url) throw "no tab url";
 
       if (tab.url.match(/https?:\/\//g)) {
@@ -236,7 +253,8 @@
 
         setEventListener();
       }
-    })
+    } ) ;
+
   };
 
 
@@ -255,3 +273,6 @@
 })(window.top, window.top.document, window, {
   "record": true
 });
+
+
+
