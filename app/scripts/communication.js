@@ -4,43 +4,41 @@ class Communication {
   }
 
 
-  static getCode(url){
-    
+  static getCode(url) {
+
     return new Promise((resolve, reject) => {
 
-    if( url )
-    {
-      chrome.storage.sync.get(url, (response)=>{
-        resolve(response);
-      });
+      if (url) {
+        chrome.storage.sync.get(url, (response)=> {
+          resolve(response);
+        });
 
-    }else{
-      chrome.storage.sync.get((response)=>{
-        resolve(response);
-      });
+      } else {
+        chrome.storage.sync.get((response)=> {
+          resolve(response);
+        });
 
-    }
+      }
 
 
-  });
+    });
   }
 
-  static getTab(){
+  static getTab() {
 
-  return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
-    chrome.runtime.sendMessage(
-      {
-        devtools_get_url: true,
-        tab_Id:chrome.devtools.inspectedWindow.tabId
-      }, (response) =>
-      {
-        resolve(response);
-      });
+      chrome.runtime.sendMessage(
+        {
+          devtools_get_url: true,
+          tab_Id: chrome.devtools.inspectedWindow.tabId
+        }, (response) => {
+          resolve(response);
+        });
 
-  });
+    });
 
-}
+  }
 
 
 }

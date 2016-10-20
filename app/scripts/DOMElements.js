@@ -2,9 +2,11 @@ class DOMElements {
   constructor(window) {
 
     try{
-      var topDocument = window.top.document;
-      var topWindow = window.top;
-      
+      var topDocument       = window.top.document;
+      var topWindow         = window.top;
+      var codeMessages      = topDocument.querySelector('.console-group-messages');
+      var consoleContainer  = topDocument.getElementById('console-prompt');
+
     }catch(e){
       throw "initialize chrome with the following flags - --disable-web-security --user-data-dir"
     }
@@ -13,9 +15,11 @@ class DOMElements {
     return {
       topDocument : topDocument,
       topWindow : topWindow,
-      window : window
+      window : window,
+      codeMessages: codeMessages,
+      consoleContainer: consoleContainer
     }
-    
+
   }
 
 }
