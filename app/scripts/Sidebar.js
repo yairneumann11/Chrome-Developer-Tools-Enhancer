@@ -12,25 +12,37 @@ class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.startRecording = this.startRecording.bind(this);
+    this.toggleRecording = this.toggleRecording.bind(this);
+    this.events = new Events();
 
   }
 
-  startRecording(){
-    Events.setConsoleEventListener(mainElements);
+
+  toggleRecording(){
+    if( !this.props.capture ){
+      this.events.setConsoleEventListener(mainElements);
+    }else{
+      this.events.removeConsoleEventListener(mainElements);
+    }
+
+    this.props.toggleCapture();
+
+
   }
 
   clearCodes() {
     Storage.clear();
 
   }
+
   renderSidebarItems(codes) {
     let codesArr = Object.keys(codes);
 
-    return codesArr.length && codesArr.map(function(site, index) {
+    return codesArr.length && codesArr.map((site, index) =>{
         let siteCode = codesArr[site];
-        return <SidebarItem key={index} site={site} code={siteCode} />
-      });
+
+        return <SidebarItem key={index} site={site} code={siteCode} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
+      }, this);
 
   }
 
@@ -43,7 +55,7 @@ class Sidebar extends React.Component {
         <h3 className="page-header">
           Sites
           <i onClick={this.clearCodes} className="fa fa-trash header_icon delete_code"></i>
-          <i onClick={this.startRecording} className="fa fa-camera-retro header_icon capture"></i>
+          <i onClick={this.toggleRecording} className={this.props.capture ? "fa fa-pause header_icon capture" : "fa fa-camera-retro header_icon capture"}></i>
         </h3>
         <hr></hr>
         <nav className="nav nav-pills nav-stacked">
@@ -59,11 +71,13 @@ class SidebarItem extends React.Component {
   constructor(props) {
     super(props);
     console.log(this);
+
   }
 
   render(){
-    return <a className="nav-link truncate" >{this.props.site}</a>
+    return <a className="nav-link truncate" onClick={this.props.setSelectedSite} >{this.props.site}</a>
   }
+
 }
 
 export default Sidebar;

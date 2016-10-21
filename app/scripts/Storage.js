@@ -8,7 +8,7 @@ class Storage {
   static clear() {
     chrome.storage.sync.clear();
   }
-  
+
   static onStorageChange(fn) {
     chrome.storage.onChanged.addListener((storageUpdate)=> {
       fn(storageUpdate);
@@ -23,11 +23,11 @@ class Storage {
 
       if( Object.keys(savedCode).length === 0 )
       {
-        code = timestamp + "$$_" + code;
+        code = code + "$$$" + timestamp;
 
       }else{
 
-        let newCode = code + "@@" + timestamp + "$$_" + savedCode[url];
+        let newCode = code + "$$$" + timestamp + "@@@" + savedCode[url];
         code = newCode;
       }
 

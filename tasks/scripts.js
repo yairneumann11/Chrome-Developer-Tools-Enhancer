@@ -41,7 +41,9 @@ gulp.task('scripts', (cb) => {
         loaders: [{
           test: /\.js$/,
           loader: 'babel'
-        }]
+        },
+          { test: /\.json$/, loader: 'json' }
+        ]
       },
       eslint: {
         configFile: '.eslintrc'

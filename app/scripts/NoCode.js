@@ -12,18 +12,18 @@ let mainElements = new DOMElements(window);
 class NoCode extends React.Component {
 
   constructor(props){
-    super(props)
+    super(props);
 
     this.runScript = this.runScript.bind(this);
-
+    this.events    = new Events();
   }
 
   runScript(e) {
     let code = "console.log('hello PDW')";
-    Events.emmitInitialScript(mainElements, code);
-    Events.setCode(mainElements,e,code);
-    Events.setConsoleEventListener(mainElements);
-    // pdw.init();
+    this.events.emmitInitialScript(mainElements, code);
+    this.events.setCode(mainElements,e,code);
+    this.events.setConsoleEventListener(mainElements);
+
   }
 
 

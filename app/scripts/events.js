@@ -1,22 +1,46 @@
 import Communication from "./communication";
 import Storage from "./storage";
+import DOMElements from "./DOMElements";
+
 
 
 class Events {
   constructor() {
 
+
+    this.consoleFunction = this.consoleFunction.bind(this)
   }
 
 
-  static removeEventListener(mainElements){
-    mainElements.consoleContainer.removeEventListener('keydown', this.codeEvalListener);
+  removeConsoleEventListener(mainElements){
+    mainElements.consoleContainer.removeEventListener('keydown', this.consoleFunction);
   }
 
-  static emmitInitialScript(mainElements, script) {
+  setConsoleEventListener(mainElements) {
+    mainElements.consoleContainer.addEventListener('keydown', this.consoleFunction)
+  }
+
+
+  static manageConsoleEventListener(mainElements, action){
+
+    let bindedFn = this.consoleFunction.bind(this, mainElements);
+
+    if(action === "add"){
+      mainElements.consoleContainer.addEventListener('keydown', bindedFn, true);
+    }else if(action === "remove")
+    {
+      mainElements.consoleContainer.removeEventListener('keydown', bindedFn, true);
+    }
+
+  }
+
+
+
+  emmitInitialScript(mainElements, script) {
 
     mainElements.consoleContainer.innerText = script;
-    
-    var eventObj = new mainElements.topWindow.Event("keydown")
+
+    var eventObj = new mainElements.topWindow.Event("keydown");
 
     eventObj.keyCode = 13;
     eventObj.key = "Enter";
@@ -26,23 +50,24 @@ class Events {
 
   }
 
-  static setConsoleEventListener(mainElements) {
-    mainElements.consoleContainer.addEventListener('keydown', (e)=> {
+  consoleFunction(e){
+    let mainElements = new DOMElements(window);
 
-      let code = mainElements.consoleContainer.innerText;
+    let code = mainElements.consoleContainer.innerText;
 
-      setTimeout(()=> {
-        try{
-          this.codeEvalListener(mainElements, e, code);
-        }catch(e){
-          throw "unvalid JS"
-        }
+    setTimeout(()=> {
+      try{
+        this.codeEvalListener(mainElements, e, code);
+      }catch(e){
+        throw "unvalid JS"
+      }
 
-      }, 100)
-    });
+    }, 100)
   }
 
-  static setCode(mainElements, e, code){
+
+
+  setCode(mainElements, e, code){
     Communication.getTab().then((tab)=> {
       console.log(tab.url);
       console.log(code);
@@ -55,7 +80,7 @@ class Events {
     });
   }
 
-  static codeEvalListener(mainElements, e, code) {
+  codeEvalListener(mainElements, e, code) {
 
     if (e.keyCode == 13) {
 

@@ -8,8 +8,26 @@
   color: #E91E63;
 }
 
+.container-fluid {
+  transition: all 0.2s ease;
+
+}
+
+.capture-frame {
+  border-top: solid #E91E63 !important;
+}
+
 .delete_code{
   color: #1f7e9a;
+}
+
+.play{
+  color: #1d9d74;
+  cursor: pointer;
+}
+
+.margin-left {
+  margin-left: 10px;
 }
 
 .nav>a {
@@ -40,8 +58,9 @@
   position: relative;
   padding: 1rem;
   margin: 1rem -1rem;
-  border: solid #f7f7f9;
+  border-top: solid #f7f7f9;
   border-width: .2rem 0 0;
+  transition: all 0.2s ease;
 }
 
 #exampleScript {
@@ -51,4 +70,28 @@
 
 .whiteTxt {
   color: white;
+}
+
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 10;
+}
+
+.loading-spinner {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }

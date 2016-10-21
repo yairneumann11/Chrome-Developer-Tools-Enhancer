@@ -7,6 +7,7 @@ import Events from "./events";
 import DOMElements from "./DOMElements";
 import NoCode from "./NoCode";
 import ContentCode from "./ContentCode";
+import Loader from "./Loader";
 
 class App extends React.Component {
 
@@ -15,22 +16,29 @@ class App extends React.Component {
     console.log(this);
 
 
+    this.toggleLoader = this.toggleLoader.bind(this);
+
     chrome.storage.onChanged.addListener((storageUpdate)=> {
       this.update(storageUpdate);
     });
 
   }
-
   setStartingState() {
     console.log("componentDidMount");
     if( this.props.code && Object.keys(this.props.code).length )
     {
       this.setState(
-        {hasCode:true}
+        {
+          hasCode:true,
+          loaded: false
+        }
       );
     }else{
       this.setState(
-        {hasCode:false}
+        {
+          hasCode:false,
+          loaded: true
+        }
       );
       console.log("no code");
     }
@@ -38,7 +46,6 @@ class App extends React.Component {
   componentWillMount(){
     this.setStartingState();
   }
-
   update() {
 
     Communication.getCode().then((code)=> {
@@ -54,20 +61,26 @@ class App extends React.Component {
       }
 
       ReactDOM.render(
-        <App code={code}/>,
+        <App code={code} />,
         document.getElementById('app')
       );
 
     })
   }
 
+  toggleLoader(){
+    this.setState(
+      {loaded: true}
+    )
+  }
 
   render() {
 
     return (
       <div className="container-fluid">
+        { this.state.loaded ? null: <Loader /> }
         {this.state.hasCode ?
-          <ContentCode code={this.props.code} /> : <NoCode/>}
+          <ContentCode code={this.props.code} selectedSite="" componentLoaded={this.toggleLoader} /> : <NoCode/>}
       </div>
     );
   }
