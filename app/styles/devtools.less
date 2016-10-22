@@ -34,11 +34,15 @@
   transition: all 0.2s ease;
   cursor: pointer;
 }
+.nav-link {
+  cursor: pointer !important;
+}
 
 .truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer !important;
 }
 
 .nav>a:focus, .nav>a:hover {
@@ -94,4 +98,23 @@
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-leave {
+  opacity: 1;
+}
+
+.fade-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

@@ -7,6 +7,7 @@ import Events from './events';
 
 import 'brace/mode/java';
 import 'brace/theme/github';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
 
 
 
@@ -64,7 +65,6 @@ class CodeItem extends React.Component {
         </small>
         <hr/>
         <AceEditor
-          mode="java"
           theme="github"
           name={this.props.uniquq_id}
           mode="javascript"
@@ -134,8 +134,13 @@ class CodeTable extends React.Component {
           <hr/>
 
           <main>
+            <ReactCSSTransitionGroup
+              transitionName="fade"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {codeItems}
+            </ReactCSSTransitionGroup>
 
-            {codeItems}
 
           </main>
 

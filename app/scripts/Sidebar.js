@@ -5,6 +5,9 @@ import React from "react";
 import Storage from "./storage";
 import Events from "./events";
 import DOMElements from "./DOMElements";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
+
+
 
 let mainElements = new DOMElements(window);
 
@@ -59,7 +62,13 @@ class Sidebar extends React.Component {
         </h3>
         <hr></hr>
         <nav className="nav nav-pills nav-stacked">
-          {sidebarItems}
+          <ReactCSSTransitionGroup
+            transitionName="fade"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}>
+            {sidebarItems}
+          </ReactCSSTransitionGroup>
+
         </nav>
       </div>
     );

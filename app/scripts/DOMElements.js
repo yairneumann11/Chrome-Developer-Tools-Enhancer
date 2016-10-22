@@ -11,6 +11,9 @@ class DOMElements {
       throw "initialize chrome with the following flags - --disable-web-security --user-data-dir"
     }
 
+    if( !consoleContainer ){
+      throw "please open the console for the extension to work"
+    }
 
     return {
       topDocument : topDocument,
