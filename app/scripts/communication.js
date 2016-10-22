@@ -1,3 +1,5 @@
+import DOMElements from "./DOMElements";
+
 class Communication {
   constructor() {
 
@@ -22,6 +24,20 @@ class Communication {
 
 
     });
+  }
+
+  static runCode(code) {
+    let mainElements = new DOMElements(window);
+
+    mainElements.consoleContainer.innerText = code;
+    
+    if (mainElements.codeMessages && mainElements.codeMessages.children && mainElements.codeMessages.children.length) {
+      let messages = mainElements.codeMessages.children;
+      let lstMessage = messages[messages.length - 1];
+
+      if (lstMessage.className.indexOf("console-error-level") > -1) throw "unvalid JS";
+    }
+
   }
 
   static getTab() {

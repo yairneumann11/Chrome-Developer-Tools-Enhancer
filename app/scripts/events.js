@@ -36,8 +36,8 @@ class Events {
 
 
 
-  emmitInitialScript(mainElements, script) {
-
+  emmitScript(script) {
+    let mainElements = new DOMElements(window);
     mainElements.consoleContainer.innerText = script;
 
     var eventObj = new mainElements.topWindow.Event("keydown");

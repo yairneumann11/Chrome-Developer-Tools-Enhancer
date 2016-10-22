@@ -47,19 +47,26 @@ class App extends React.Component {
     this.setStartingState();
   }
   update() {
+    console.log("app:update")
 
     Communication.getCode().then((code)=> {
-      if( Object.keys(code).length )
+
+      let codeSites = Object.keys(code);
+
+      if( codeSites.length && !this.state.hasCode )
       {
         this.setState({hasCode:true});
         console.log(code);
 
         // this.code = code;
-      }else{
+      }
+
+      if( !codeSites.length ){
         this.setState({hasCode:false});
         console.log(code);
       }
 
+      console.log("ReactDOM:reander:app")
       ReactDOM.render(
         <App code={code} />,
         document.getElementById('app')

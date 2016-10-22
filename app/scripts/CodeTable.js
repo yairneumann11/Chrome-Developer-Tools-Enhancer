@@ -3,10 +3,11 @@ import React from "react";
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
+import Events from './events';
 
 import 'brace/mode/java';
 import 'brace/theme/github';
-// import Configuration from "Configuration.json"
+
 
 
 class CodeItem extends React.Component {
@@ -14,6 +15,18 @@ class CodeItem extends React.Component {
   constructor(props){
     super(props);
 
+    this.saveCodeToState = this.saveCodeToState.bind(this);
+    this.runCode = this.runCode.bind(this);
+    this.events = new Events();
+    this.editorCode = this.props.code;
+  }
+
+  componentWillMount(){
+
+    this.setState({
+      code: this.props.code
+    });
+    console.log(this);
   }
 
   parseDate(time){
@@ -22,16 +35,30 @@ class CodeItem extends React.Component {
   }
 
   saveCodeToState(code){
+    this.editorCode = code;
     console.log(code);
+  }
+
+  runCode(){
+    if( this.editorCode ){
+      this.events.emmitScript(this.editorCode);
+    }else{
+      throw 'state code not defined';
+    }
+
+  }
+
+  setEditorCode(){
+    this.editorCode = this.props.code;
   }
 
   render() {
 
     let time = this.parseDate(this.props.timestamp);
-
+    this.setEditorCode();
     return (
       <div>
-        <small>{this.props.index + ". " + time}<i className="fa fa-play play margin-left"></i></small>
+        <small>{this.props.index + ". " + time}<i onClick={this.runCode} className="fa fa-play play margin-left"></i></small>
         <hr/>
         <AceEditor
           mode="java"
@@ -42,7 +69,7 @@ class CodeItem extends React.Component {
           width="100%"
           onChange={this.saveCodeToState}
           editorProps={{$blockScrolling: true}}
-          value={this.props.code}
+          value={this.editorCode}
         />
         <hr/>
       </div>

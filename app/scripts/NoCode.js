@@ -20,9 +20,9 @@ class NoCode extends React.Component {
 
   runScript(e) {
     let code = "console.log('hello PDW')";
-    this.events.emmitInitialScript(mainElements, code);
-    this.events.setCode(mainElements,e,code);
     this.events.setConsoleEventListener(mainElements);
+    this.events.emmitScript(code);
+    this.events.setCode(mainElements,e,code);
 
   }
 
