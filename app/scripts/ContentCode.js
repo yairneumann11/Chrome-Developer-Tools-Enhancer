@@ -22,11 +22,26 @@ class ContentCode extends React.Component {
   componentWillMount(){
 
     let firstSite = Object.keys(this.props.code)[0];
+
+    if( !firstSite ){
+      Storage.getCode().then((code)=>{
+        console.log("first code", code);
+
+        firstSite = Object.keys(code)[0];
+        this.setState({
+          selectedSite: firstSite,
+          capture: false,
+          captureClassName:'content_container'
+        })
+      })
+    }
+
     this.setState({
       selectedSite: firstSite,
       capture: false,
       captureClassName:'content_container'
     })
+
   }
 
   componentDidMount(){
@@ -47,6 +62,7 @@ class ContentCode extends React.Component {
   // }
 
   setSelectedSite(site) {
+
     this.setState({
       selectedSite: site
     });

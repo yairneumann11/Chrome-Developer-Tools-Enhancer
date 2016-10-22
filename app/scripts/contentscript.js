@@ -1,9 +1,6 @@
 'use strict';
-import './lib/livereload';
+// import './lib/livereload';
 
-/*
- location.reload()@@1475163823478$$_console.log("yair")@@1475163818058$$_function a(){};@@1475073569399$$_eval("(1 + 2 ) + (3 +4)")@@1475073265325$$_console.log(15)@@1475044343679$$_console.log(14)@@1475044299618$$_1475044269759$$_console.log(13)
- */
 
 
 function prepareCode(code){

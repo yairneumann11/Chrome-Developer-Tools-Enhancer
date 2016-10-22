@@ -19,22 +19,7 @@ class Events {
   setConsoleEventListener(mainElements) {
     mainElements.consoleContainer.addEventListener('keydown', this.consoleFunction)
   }
-
-
-  static manageConsoleEventListener(mainElements, action){
-
-    let bindedFn = this.consoleFunction.bind(this, mainElements);
-
-    if(action === "add"){
-      mainElements.consoleContainer.addEventListener('keydown', bindedFn, true);
-    }else if(action === "remove")
-    {
-      mainElements.consoleContainer.removeEventListener('keydown', bindedFn, true);
-    }
-
-  }
-
-
+  
 
   emmitScript(script) {
     let mainElements = new DOMElements(window);

@@ -1,7 +1,7 @@
 'use strict';
 
 // Enable chromereload by uncommenting this line:
- import './lib/livereload';
+ //import './lib/livereload';
 
 
 

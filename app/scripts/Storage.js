@@ -6,7 +6,7 @@ class Storage {
   }
 
   static clear() {
-    chrome.storage.sync.clear();
+    chrome.storage.local.clear();
   }
 
   static onStorageChange(fn) {
@@ -16,9 +16,29 @@ class Storage {
 
   }
 
+  static getCode(url) {
+
+    return new Promise((resolve, reject) => {
+
+      if (url) {
+        chrome.storage.local.get(url, (response)=> {
+          resolve(response);
+        });
+
+      } else {
+        chrome.storage.local.get((response)=> {
+          resolve(response);
+        });
+
+      }
+
+
+    });
+  }
+
   static setUrlCode(url,code, cb){
 
-    Communication.getCode(url).then((savedCode)=>{
+    this.getCode(url).then((savedCode)=>{
       let timestamp = (new Date).getTime();
 
       if( Object.keys(savedCode).length === 0 )
@@ -33,7 +53,7 @@ class Storage {
 
       let obj = {};
       obj[url]= code;
-      chrome.storage.sync.set(obj, () => {
+      chrome.storage.local.set(obj, () => {
         cb();
       });
     })
