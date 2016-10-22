@@ -44,21 +44,8 @@ class ContentCode extends React.Component {
 
   }
 
-  componentDidMount(){
-    this.props.componentLoaded();
-  }
-
-  // componentDidUpdate(){
-  //   console.log("componentWillUpdate");
-  //   let siteCode = Object.keys(this.props.code);
-  //
-  //   if( siteCode.length === 1 && !this.state.selectedSite){
-  //     this.setState({
-  //       selectedSite: siteCode[0]
-  //     })
-  //   }
-  //
-  //
+  // componentDidMount(){
+  //   this.props.componentLoaded();
   // }
 
   setSelectedSite(site) {

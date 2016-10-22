@@ -40,22 +40,40 @@ class Storage {
 
     this.getCode(url).then((savedCode)=>{
       let timestamp = (new Date).getTime();
+      let output;
+      let newCodeArr = [timestamp, code];
 
-      if( Object.keys(savedCode).length === 0 )
-      {
-        code = code + "$$$" + timestamp;
 
+
+      if( savedCode && savedCode[url] ){
+        savedCode[url].push(newCodeArr);
+        output = savedCode;
       }else{
-
-        let newCode = code + "$$$" + timestamp + "@@@" + savedCode[url];
-        code = newCode;
+        output = {};
+        output[url] = [newCodeArr];
       }
 
-      let obj = {};
-      obj[url]= code;
-      chrome.storage.local.set(obj, () => {
+      chrome.storage.local.set(output, () => {
         cb();
       });
+      //
+      //
+      //
+      // if( Object.keys(savedCode).length === 0 )
+      // {
+      //   code = code + "$$$" + timestamp;
+      //
+      // }else{
+      //
+      //   let newCode = code + "$$$" + timestamp + "@@@" + savedCode[url];
+      //   code = newCode;
+      // }
+      //
+      // let obj = {};
+      // obj[url]= code;
+      // chrome.storage.local.set(obj, () => {
+      //   cb();
+      // });
     })
 
   }

@@ -53,6 +53,8 @@ class CodeItem extends React.Component {
     this.editorCode = this.props.code;
   }
 
+
+
   render() {
 
     let time = this.parseDate(this.props.timestamp);
@@ -87,34 +89,46 @@ class CodeTable extends React.Component {
 
   constructor(props){
     super(props);
-
+    this.events = new Events();
+    this.runAll = this.runAll.bind(this);
   }
 
-  parseCodeString(str){
-    let codesArr = [];
-    if(str){
-      str.split("@@@").map((item, index)=>{
-        let codeArr   = item.split("$$$");
-        let code      = codeArr[1];
-        let timestamp = codeArr[0];
-        codesArr.push([timestamp, code])
-      })
-
-    }
-    return codesArr;
-  }
+  // parseCodeString(str){
+  //   let codesArr = [];
+  //   if(str){
+  //     str.split("@@@").map((item, index)=>{
+  //       let codeArr   = item.split("$$$");
+  //       let code      = codeArr[1];
+  //       let timestamp = codeArr[0];
+  //       codesArr.push([timestamp, code])
+  //     })
+  //
+  //   }
+  //   return codesArr;
+  // }
 
   renderSidebarItems(codes) {
-    let codeSessionsStr = this.props.code[this.props.selectedSite];
-    let codeSessions = this.parseCodeString(codeSessionsStr);
+    let siteCodesArr = this.props.code[this.props.selectedSite];
+    // let codeSessions = this.parseCodeString(codeSessionsStr);
 
-    return codeSessions.length && codeSessions.map((codeSessionArr, index) =>{
-        let siteCode  = codeSessionArr[0];
-        let timestamp = codeSessionArr[1];
+    return siteCodesArr.length && siteCodesArr.map((codeSessionArr, index) =>{
+        let siteCode  = codeSessionArr[1];
+        let timestamp = codeSessionArr[0];
 
         return <CodeItem key={index} uniquq_id={"pdw_code_" + index} index={index} timestamp={timestamp} site={this.props.selectedSite} code={siteCode}  />
       }, this);
 
+  }
+
+  runAll(){
+    if( this.props.code[this.props.selectedSite] ){
+      for (let i = 0; i < this.props.code[this.props.selectedSite].length; i++) {
+        let site = this.props.code[this.props.selectedSite][i];
+        this.events.emmitScript(site[1]);
+      }
+    }else{
+      throw 'state code not defined';
+    }
   }
 
   render() {
@@ -128,7 +142,7 @@ class CodeTable extends React.Component {
         <div className="code-container">
           <header>
             <h3 className="page-header">{this.props.selectedSite}
-              <i onClick={this.clearCodes} className="fa fa-play header_icon play"></i>
+              <i onClick={this.runAll} className="fa fa-play header_icon play"></i>
             </h3>
           </header>
           <hr/>
