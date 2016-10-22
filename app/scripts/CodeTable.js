@@ -58,7 +58,10 @@ class CodeItem extends React.Component {
     this.setEditorCode();
     return (
       <div>
-        <small>{this.props.index + ". " + time}<i onClick={this.runCode} className="fa fa-play play margin-left"></i></small>
+        <small>{this.props.index + ". " + time}
+          <i onClick={this.runCode} className="fa fa-play play margin-left"></i>
+          <i onClick={this.runCode} className="fa fa-trash header_icon delete_code"></i>
+        </small>
         <hr/>
         <AceEditor
           mode="java"

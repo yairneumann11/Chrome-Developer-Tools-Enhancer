@@ -11,12 +11,12 @@ class Communication {
     return new Promise((resolve, reject) => {
 
       if (url) {
-        chrome.storage.sync.get(url, (response)=> {
+        chrome.storage.local.get(url, (response)=> {
           resolve(response);
         });
 
       } else {
-        chrome.storage.sync.get((response)=> {
+        chrome.storage.local.get((response)=> {
           resolve(response);
         });
 
@@ -30,7 +30,7 @@ class Communication {
     let mainElements = new DOMElements(window);
 
     mainElements.consoleContainer.innerText = code;
-    
+
     if (mainElements.codeMessages && mainElements.codeMessages.children && mainElements.codeMessages.children.length) {
       let messages = mainElements.codeMessages.children;
       let lstMessage = messages[messages.length - 1];
