@@ -1,4 +1,4 @@
-import Communication from "./communication";
+import Utils from "./Utils";
 
 class Storage {
   constructor(window) {
@@ -36,6 +36,35 @@ class Storage {
     });
   }
 
+  static deleteUrlCode(url, codeIndex, allSiteCode,cb){
+    let newCode;
+    try{
+      codeIndex = parseInt(codeIndex.split("_")[1]);
+      if( Utils.isNumeric(codeIndex) ){
+
+        console.log(allSiteCode);
+        allSiteCode.splice(codeIndex, 1);
+
+
+
+        if( !allSiteCode.length ){
+          chrome.storage.local.remove(url,(status)=>{
+            console.log(status)
+          })
+        }else{
+          newCode = {};
+          newCode[url] = allSiteCode;
+          chrome.storage.local.set( newCode ,(status)=>{
+            console.log(status)
+          })
+        }
+
+      }
+    }catch (e){
+      console.log(e.message);
+    }
+  }
+
   static setUrlCode(url,code, cb){
 
     this.getCode(url).then((savedCode)=>{
@@ -56,24 +85,7 @@ class Storage {
       chrome.storage.local.set(output, () => {
         cb();
       });
-      //
-      //
-      //
-      // if( Object.keys(savedCode).length === 0 )
-      // {
-      //   code = code + "$$$" + timestamp;
-      //
-      // }else{
-      //
-      //   let newCode = code + "$$$" + timestamp + "@@@" + savedCode[url];
-      //   code = newCode;
-      // }
-      //
-      // let obj = {};
-      // obj[url]= code;
-      // chrome.storage.local.set(obj, () => {
-      //   cb();
-      // });
+
     })
 
   }

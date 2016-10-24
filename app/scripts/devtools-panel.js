@@ -1,30 +1,51 @@
 'use strict';
 import React from "react";
+import Provider from "react-redux";
+// import store from "./store";
 import ReactDOM from "react-dom";
-import Communication from "./communication";
-// import Storage from "./storage";
-// import Events from "./events";
-// import DOMElements from "./DOMElements";
+import Communication from "./common/communication";
 
-import ContentCode from "./ContentCode";
-import Loader from "./Loader";
-import Storage from "./Storage";
-import App from "./App";
-import NoCode from "./NoCode";
+import App from "./components/App";
+import NoCode from "./components/NoCode";
 
 
+let site;
 
+  function getSelectedSite(storageUpdate, code){
 
-  function init(){
+    if(typeof storageUpdate === "string" ) return storageUpdate;
+
+    if( storageUpdate && Object.keys(storageUpdate).length ){
+      return Object.keys(storageUpdate)[0]
+    }else{
+      return Object.keys(code)[0]
+    }
+  }
+
+  function setSelectedSite(site){
+    init(site);
+  }
+
+  function renderApp(code, site){
+    ReactDOM.render(
+      <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>,
+      document.getElementById('app')
+    );
+  }
+
+  function init(storageUpdate){
     Communication.getCode().then((code)=>{
       let hasCode =  Object.keys(code).length;
 
       if( hasCode ){
 
-        ReactDOM.render(
-          <App code={code}/>,
-          document.getElementById('app')
-        );
+        site = getSelectedSite(storageUpdate, code);
+
+        renderApp(code, site);
+        // ReactDOM.render(
+        //   <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>,
+        //   document.getElementById('app')
+        // );
       }else{
         ReactDOM.render(
           <NoCode />,

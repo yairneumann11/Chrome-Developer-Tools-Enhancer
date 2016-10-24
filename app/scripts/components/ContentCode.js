@@ -1,8 +1,8 @@
 
 import React from "react";
-import Communication from "./communication";
-import Storage from "./storage";
-import Events from "./events";
+import Communication from "../common/communication";
+import Storage from "../common/storage";
+import Events from "../common/events";
 import Sidebar from "./Sidebar";
 import CodeTable from "./CodeTable";
 
@@ -21,32 +21,33 @@ class ContentCode extends React.Component {
 
   componentWillMount(){
 
-    let firstSite = Object.keys(this.props.code)[0];
-
-    if( !firstSite ){
-      Storage.getCode().then((code)=>{
-        console.log("first code", code);
-
-        firstSite = Object.keys(code)[0];
-        this.setState({
-          selectedSite: firstSite,
-          capture: false,
-          captureClassName:'content_container'
-        })
-      })
-    }
+    // let firstSite = Object.keys(this.props.code)[0];
+    //
+    //
+    // if( !firstSite ){
+    //   Storage.getCode().then((code)=>{
+    //     console.log("first code", code);
+    //
+    //     firstSite = Object.keys(code)[0];
+    //     this.setState({
+    //       selectedSite: this.props.selectedSite,
+    //       capture: false,
+    //       captureClassName:'content_container'
+    //     })
+    //   })
+    // }
 
     this.setState({
-      selectedSite: firstSite,
+      selectedSite: this.props.selectedSite,
       capture: false,
       captureClassName:'content_container'
     })
 
   }
 
-  // componentDidMount(){
-  //   this.props.componentLoaded();
-  // }
+  componentDidMount(){
+    console.log("componentDidMount!!!!!!");
+  }
 
   setSelectedSite(site) {
 
@@ -84,10 +85,10 @@ class ContentCode extends React.Component {
         </div>
         <div className="row">
           <div className="col-sm-4">
-            <Sidebar code={this.props.code} setSelectedSite={this.setSelectedSite.bind(this)} capture={this.state.capture}  toggleCapture={this.showCapture.bind(this)}/>
+            <Sidebar code={this.props.code} setSelectedSite={this.props.setSelectedSite} capture={this.state.capture}  toggleCapture={this.showCapture.bind(this)}/>
           </div>
           <div className="col-sm-8">
-            <CodeTable code={this.props.code} selectedSite={this.state.selectedSite} />
+            <CodeTable code={this.props.code} selectedSite={this.props.selectedSite}  />
           </div>
         </div>
       </div>

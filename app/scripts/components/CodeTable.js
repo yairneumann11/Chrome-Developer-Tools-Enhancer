@@ -3,7 +3,9 @@ import React from "react";
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
-import Events from './events';
+import Events from '../common/events';
+import Storage from '../common/Storage';
+import Utils from '../common/Utils';
 
 import 'brace/mode/java';
 import 'brace/theme/github';
@@ -20,6 +22,7 @@ class CodeItem extends React.Component {
     this.runCode = this.runCode.bind(this);
     this.events = new Events();
     this.editorCode = this.props.code;
+
   }
 
   componentWillMount(){
@@ -53,17 +56,23 @@ class CodeItem extends React.Component {
     this.editorCode = this.props.code;
   }
 
+  deleteCode(codeIndex){
+    Storage.deleteUrlCode(this.props.site, codeIndex, this.props.allSiteCode ,(status)=>{
+      console.log(status)
+    });
 
+
+  }
 
   render() {
 
     let time = this.parseDate(this.props.timestamp);
     this.setEditorCode();
     return (
-      <div>
+      <div className="code-editor-container">
         <small>{this.props.index + ". " + time}
           <i onClick={this.runCode} className="fa fa-play play margin-left"></i>
-          <i onClick={this.runCode} className="fa fa-trash header_icon delete_code"></i>
+          <i onClick={this.deleteCode.bind(this, this.props.uniquq_id)} className="fa fa-trash header_icon delete_code"></i>
         </small>
         <hr/>
         <AceEditor
@@ -111,11 +120,11 @@ class CodeTable extends React.Component {
     let siteCodesArr = this.props.code[this.props.selectedSite];
     // let codeSessions = this.parseCodeString(codeSessionsStr);
 
-    return siteCodesArr.length && siteCodesArr.map((codeSessionArr, index) =>{
+    return siteCodesArr && siteCodesArr.length && siteCodesArr.map((codeSessionArr, index) =>{
         let siteCode  = codeSessionArr[1];
         let timestamp = codeSessionArr[0];
 
-        return <CodeItem key={index} uniquq_id={"pdw_code_" + index} index={index} timestamp={timestamp} site={this.props.selectedSite} code={siteCode}  />
+        return <CodeItem key={index} uniquq_id={"code_" + index} index={index} timestamp={timestamp} allSiteCode={siteCodesArr} site={this.props.selectedSite} code={siteCode}  />
       }, this);
 
   }

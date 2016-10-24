@@ -1,10 +1,9 @@
 
 import React from "react";
-// import ReactDOM from "react-dom";
-// import Communication from "./communication";
-import Storage from "./storage";
-import Events from "./events";
-import DOMElements from "./DOMElements";
+
+import Storage from "../common/storage";
+import Events from "../common/events";
+import DOMElements from "../common/DOMElements";
 
 
 class Loader extends React.Component {
