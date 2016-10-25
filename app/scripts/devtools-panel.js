@@ -10,16 +10,6 @@ import NoCode from "./components/NoCode";
 
 
 
-// store.subscribe(()=>{
-//   console.log("store changed", store.getState())
-// });
-//
-// store.dispatch({
-//   type:"FETCH_USERS",
-//   payload: axios.get("http://rest.learncode.academy/api/wstern/users")
-// });
-
-
 
 let site;
 

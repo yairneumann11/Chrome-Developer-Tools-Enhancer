@@ -1,28 +1,26 @@
 'use strict';
 import React from "react";
-import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
-import Communication from "../common/communication";
-
 import ContentCode from "./ContentCode";
-import Loader from "./Loader";
+import NoCode from "./NoCode";
 import Utils from "../common/Utils";
-import Storage from "../common/Storage";
 
+import * as site from '../actions/siteActions'
 
 
 @connect( (store) => {
   return {
-    user: store.sites
+    site: store.site.site,
+    chrome_storage: store.chrome_storage.chrome_storage
   };
 })
-  
+
 class App extends React.Component {
 
   constructor(props){
     super(props);
-console.log(this);
+    console.log(this);
 
 
     this.toggleLoader = this.toggleLoader.bind(this);
@@ -52,7 +50,9 @@ console.log(this);
 
     }
   }
-
+  componentWillMount(){
+    this.props.dispatch(site.getSitesCode());
+  }
 
 
   toggleLoader(){
@@ -63,11 +63,17 @@ console.log(this);
 
   render() {
     Utils.log("App Render");
+    Utils.log(this);
+    let site = this.props.site;
+
+    if( !this.props.chrome_storage ){
+      return <NoCode />
+    }else{
     return (
       <div className="container-fluid">
           <ContentCode code={this.props.code} setSelectedSite={this.props.setSelectedSite} selectedSite={this.props.selectedSite} componentLoaded={this.toggleLoader} />
       </div>
-    );
+    )}
   }
 }
 

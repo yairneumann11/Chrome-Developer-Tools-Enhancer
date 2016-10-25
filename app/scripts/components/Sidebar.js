@@ -1,6 +1,6 @@
 
 import React from "react";
-
+import { connect } from "react-redux";
 import Storage from "../common/storage";
 import Events from "../common/events";
 import DOMElements from "../common/DOMElements";
@@ -10,6 +10,12 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
 
 let mainElements = new DOMElements(window);
 
+@connect( (store) => {
+  return {
+    site: store.site.site
+  };
+})
+  
 class Sidebar extends React.Component {
 
   constructor(props) {
