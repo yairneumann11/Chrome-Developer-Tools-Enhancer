@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
-import {routerReducer} from "react-router-redux";
 
-import {sites} from "./sites";
 
-const rootReducer = combineReducers({sites, routing : routerReducer});
+import sites from "./sites";
+
+export const rootReducer =  combineReducers({sites:sites});
 
 export default rootReducer;
+
+
 
 

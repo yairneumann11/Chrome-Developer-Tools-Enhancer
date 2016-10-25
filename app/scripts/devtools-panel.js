@@ -1,12 +1,24 @@
 'use strict';
 import React from "react";
-import Provider from "react-redux";
-// import store from "./store";
 import ReactDOM from "react-dom";
-import Communication from "./common/communication";
+import { Provider } from "react-redux";
+import store from "./store";
 
+import Communication from "./common/communication";
 import App from "./components/App";
 import NoCode from "./components/NoCode";
+
+
+
+// store.subscribe(()=>{
+//   console.log("store changed", store.getState())
+// });
+//
+// store.dispatch({
+//   type:"FETCH_USERS",
+//   payload: axios.get("http://rest.learncode.academy/api/wstern/users")
+// });
+
 
 
 let site;
@@ -28,7 +40,9 @@ let site;
 
   function renderApp(code, site){
     ReactDOM.render(
-      <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>,
+      <Provider store={store}>
+        <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>
+      </Provider>,
       document.getElementById('app')
     );
   }
@@ -43,10 +57,7 @@ let site;
         site = getSelectedSite(storageUpdate, code);
 
         renderApp(code, site);
-        // ReactDOM.render(
-        //   <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>,
-        //   document.getElementById('app')
-        // );
+
       }else{
         ReactDOM.render(
           <NoCode />,

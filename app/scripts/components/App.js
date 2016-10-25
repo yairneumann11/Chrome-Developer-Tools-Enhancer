@@ -1,11 +1,10 @@
 'use strict';
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
+
 import Communication from "../common/communication";
-// import Storage from "./storage";
-// import Events from "./events";
-// import DOMElements from "./DOMElements";
-// import NoCode from "./NoCode";
+
 import ContentCode from "./ContentCode";
 import Loader from "./Loader";
 import Utils from "../common/Utils";
@@ -13,6 +12,12 @@ import Storage from "../common/Storage";
 
 
 
+@connect( (store) => {
+  return {
+    user: store.sites
+  };
+})
+  
 class App extends React.Component {
 
   constructor(props){
