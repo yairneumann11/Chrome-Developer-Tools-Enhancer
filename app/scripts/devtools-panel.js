@@ -34,6 +34,7 @@ let site;
   }
 
   function init(storageUpdate){
+    console.log("init")
     Communication.getCode().then((code)=>{
       let hasCode =  Object.keys(code).length;
 
