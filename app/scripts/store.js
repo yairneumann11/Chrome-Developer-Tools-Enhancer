@@ -8,8 +8,7 @@ import reducer from './reducers';
 
 function myServiceMiddleware(myService) {
   return ({ dispatch, getState }) => next => action => {
-    if (action.type == 'SAVE_SITE_CODE') {
-      console.log("middleware#@#$@#$@#$@#");
+    if (action.type == 'SAVE_SITE_CODE'  ||  action.type == 'DELETE_SITE_CODE') {
       dispatch( site.getSitesCode() );
       // myService.doSomethingElse().then(result => dispatch({ type: 'SOMETHING_ELSE', result }))
     }

@@ -14,7 +14,7 @@ export function site (state = {
       return {
         ...state,
         selected_site: action.payload
-      }
+      };
       break;
     }
 
@@ -22,9 +22,18 @@ export function site (state = {
       return {
         ...state,
         selected_site: action.payload
-      }
+      };
       break;
     }
+    
+    case "DELETE_SITE_CODE": {
+      return {
+        ...state,
+        selected_site: action.payload
+      };
+      break;
+    }
+
   }
   return state
 }

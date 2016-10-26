@@ -1,7 +1,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-
+import * as site from '../actions/siteActions'
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import Events from '../common/events';
@@ -63,9 +63,15 @@ class CodeItem extends React.Component {
   }
 
   deleteCode(codeIndex){
-    Storage.deleteUrlCode(this.props.site, codeIndex, this.props.allSiteCode ,(status)=>{
+    debugger;
+    let site_url = this.props.selected_site.site_url;
+    let siteCode = this.props.chrome_storage[site_url];
+    this.props.dispatch( site.deleteSiteCode(site_url, codeIndex, siteCode ,(status)=>{
       console.log(status)
-    });
+    }));
+    // Storage.deleteUrlCode(this.props.selected_site.site_url, codeIndex, this.props.chrome_storage ,(status)=>{
+    //   console.log(status)
+    // });
 
 
   }

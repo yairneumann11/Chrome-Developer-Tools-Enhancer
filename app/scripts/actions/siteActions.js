@@ -2,6 +2,7 @@
 
 import Communication from '../common/Communication'
 import Storage from '../common/Storage'
+import Utils from '../common/Utils'
 
 export function setSite(site, code){
   return ({
@@ -22,23 +23,61 @@ export function getSitesCode(){
   }
 }
 
+export function deleteSiteCode(url, codeIndex, allSiteCode,cb){
+  return function(dispatch){
+    let newCode;
+    try{
+      codeIndex = parseInt(codeIndex.split("_")[1]);
+
+      if( Utils.isNumeric(codeIndex) ){
+
+        allSiteCode.splice(codeIndex, 1);
+
+        if( !allSiteCode.length ){
+          // last code item in site, remove site from storage
+          chrome.storage.local.remove(url,(status)=>{
+            console.log(status)
+          })
+        }else{
+          // remove code from site
+          newCode = {};
+          newCode[url] = allSiteCode;
+          chrome.storage.local.set( newCode ,(status)=>{
+            console.log(status)
+          })
+        }
+
+      }
+    }catch (e){
+      console.log(e.message);
+    }
+
+    return dispatch( {  type: "DELETE_SITE_CODE", payload: {
+        code: allSiteCode,
+        site_url: url
+      }
+    })
+
+  }
+}
+
 export function saveSiteCode(code){
   return function(dispatch){
     Communication.getTab().then((tab)=> {
-      console.log(tab.url);
-      console.log(code);
+
       let tabUrl = tab.url;
+
       if (tab && tab.url && code) {
         Storage.setUrlCode(tabUrl, code, (timestamp)=> {
           console.log("code saved");
+
           Storage.getCode().then( (code)=>{
             return dispatch( {  type: "SAVE_SITE_CODE", payload: {
-              code: code[tab.url],
-              site_url: tab.url
-            }
-          })
-
-          } );
+                code: code[tab.url],
+                site_url: tab.url
+              }
+            })
+          });
         });
       }
     });
