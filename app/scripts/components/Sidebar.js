@@ -1,7 +1,10 @@
 
 import React from "react";
 import { connect } from "react-redux";
+import * as site from '../actions/siteActions'
+
 import Storage from "../common/storage";
+import SidebarItem from "./SidebarItem";
 import Events from "../common/events";
 import DOMElements from "../common/DOMElements";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
@@ -12,14 +15,16 @@ let mainElements = new DOMElements(window);
 
 @connect( (store) => {
   return {
-    site: store.site.site
+    selected_site: store.site.selected_site,
+    chrome_storage: store.chrome_storage.chrome_storage
   };
 })
-  
+
 class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(this)
     this.toggleRecording = this.toggleRecording.bind(this);
     this.events = new Events();
 
@@ -43,20 +48,21 @@ class Sidebar extends React.Component {
 
   }
 
+
   renderSidebarItems(codes) {
     let codesArr = Object.keys(codes);
 
     return codesArr.length && codesArr.map((site, index) =>{
-        let siteCode = codesArr[site];
+        let siteCode = codes[site];
 
-        return <SidebarItem key={index} site={site} code={siteCode} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
+        return <SidebarItem key={index} site_url={site} code={siteCode} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
       }, this);
 
   }
 
   render() {
 
-    let sidebarItems = this.renderSidebarItems(this.props.code);
+    let sidebarItems = this.renderSidebarItems(this.props.chrome_storage);
 
     return (
       <div >
@@ -81,17 +87,24 @@ class Sidebar extends React.Component {
 
 }
 
-class SidebarItem extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this);
 
-  }
 
-  render(){
-    return <a className="nav-link truncate" onClick={this.props.setSelectedSite} >{this.props.site}</a>
-  }
 
-}
 
-export default Sidebar;
+
+
+
+// class SidebarItem extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     console.log(this);
+//
+//   }
+//
+//   render(){
+//     return <a className="nav-link truncate" onClick={this.props.setSelectedSite} >{this.props.site}</a>
+//   }
+//
+// }
+//
+ export default Sidebar;

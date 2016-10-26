@@ -11,7 +11,7 @@ import * as site from '../actions/siteActions'
 
 @connect( (store) => {
   return {
-    site: store.site.site,
+    site: store.site.selected_site,
     chrome_storage: store.chrome_storage.chrome_storage
   };
 })
@@ -64,9 +64,8 @@ class App extends React.Component {
   render() {
     Utils.log("App Render");
     Utils.log(this);
-    let site = this.props.site;
 
-    if( !this.props.chrome_storage ){
+    if( !Object.keys(this.props.chrome_storage).length ){
       return <NoCode />
     }else{
     return (

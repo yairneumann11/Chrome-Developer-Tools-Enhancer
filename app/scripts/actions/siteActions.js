@@ -2,12 +2,14 @@
 
 import Communication from '../common/Communication'
 
-export function setSite(site){
-
-  return {
-    type: "SET_SITE",
-    site: site
-  }
+export function setSite(site, code){
+    return ({
+      type: "SET_SITE_CODE",
+      payload:{
+        site_url:  site,
+        code: code
+      }
+    });
 }
 
 

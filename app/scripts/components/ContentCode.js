@@ -1,5 +1,10 @@
 
 import React from "react";
+
+import { connect } from "react-redux";
+import * as site from '../actions/siteActions'
+
+
 import Communication from "../common/communication";
 import Storage from "../common/storage";
 import Events from "../common/events";
@@ -8,7 +13,12 @@ import CodeTable from "./CodeTable";
 
 
 
-
+@connect( (store) => {
+  return {
+    selected_site: store.site.selected_site,
+    chrome_storage: store.chrome_storage.chrome_storage
+  };
+})
 class ContentCode extends React.Component {
 
   constructor(props){
@@ -19,24 +29,18 @@ class ContentCode extends React.Component {
 
   }
 
+  setInitialStoreSite(){
+
+    if( !this.props.selected_site.site_url && this.props.chrome_storage )     {
+      let chrome_storage = this.props.chrome_storage;
+      let firstSite = Object.keys(chrome_storage)[0];
+      this.props.dispatch(site.setSite( firstSite, chrome_storage[firstSite]  ));
+    }
+
+  }
+
+
   componentWillMount(){
-
-    // let firstSite = Object.keys(this.props.code)[0];
-    //
-    //
-    // if( !firstSite ){
-    //   Storage.getCode().then((code)=>{
-    //     console.log("first code", code);
-    //
-    //     firstSite = Object.keys(code)[0];
-    //     this.setState({
-    //       selectedSite: this.props.selectedSite,
-    //       capture: false,
-    //       captureClassName:'content_container'
-    //     })
-    //   })
-    // }
-
     this.setState({
       selectedSite: this.props.selectedSite,
       capture: false,
@@ -46,6 +50,8 @@ class ContentCode extends React.Component {
   }
 
   componentDidMount(){
+    this.setInitialStoreSite();
+
     console.log("componentDidMount!!!!!!");
   }
 

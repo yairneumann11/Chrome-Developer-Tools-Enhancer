@@ -1,5 +1,5 @@
 export function site (state = {
-  site:{
+  selected_site:{
     site_url: "",
     code: []
   }
@@ -7,15 +7,13 @@ export function site (state = {
 
   switch (action.type) {
     case "CHROME_STORAGE_FIRST_SITE_CODE": {
-      return {...state, site: action.payload};
+      return {...state, selected_site: action.payload};
       break;
     }
-    case "FETCH_USERS_FULFILLED": {
+    case "SET_SITE_CODE": {
       return {
         ...state,
-        fetching: false,
-        fetched: true,
-        users: action.payload
+        selected_site: action.payload
       }
       break;
     }
