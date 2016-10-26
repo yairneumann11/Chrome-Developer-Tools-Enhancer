@@ -68,7 +68,7 @@ class CodeTable extends React.Component {
     let site_url = this.props.selected_site.site_url;
 
      let codeItems = this.renderCodeTableItems(code, site_url);
-
+    
     return (
 
         <div className="code-container">

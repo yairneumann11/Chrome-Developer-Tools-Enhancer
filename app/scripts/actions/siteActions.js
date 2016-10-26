@@ -1,10 +1,11 @@
 'use strict';
 
 import Communication from '../common/Communication'
+import Storage from '../common/Storage'
 
 export function setSite(site, code){
   return ({
-    type: "SET_SITE_CODE",
+    type: "SELECT_SITE",
     payload:{
       site_url:  site,
       code: code
@@ -17,6 +18,29 @@ export function getSitesCode(){
   return function(dispatch){
     Communication.getCode().then((code)=>{
       return dispatch( {  type: "CHROME_STORAGE_DATA", payload:code} );
+    });
+  }
+}
+
+export function saveSiteCode(code){
+  return function(dispatch){
+    Communication.getTab().then((tab)=> {
+      console.log(tab.url);
+      console.log(code);
+      let tabUrl = tab.url;
+      if (tab && tab.url && code) {
+        Storage.setUrlCode(tabUrl, code, (timestamp)=> {
+          console.log("code saved");
+          Storage.getCode().then( (code)=>{
+            return dispatch( {  type: "SAVE_SITE_CODE", payload: {
+              code: code[tab.url],
+              site_url: tab.url
+            }
+          })
+
+          } );
+        });
+      }
     });
   }
 }

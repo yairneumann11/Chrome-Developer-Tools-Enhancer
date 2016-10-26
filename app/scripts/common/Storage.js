@@ -83,7 +83,7 @@ class Storage {
       }
 
       chrome.storage.local.set(output, () => {
-        cb();
+        cb(timestamp);
       });
 
     })

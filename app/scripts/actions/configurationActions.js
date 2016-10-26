@@ -5,20 +5,24 @@ import Events from '../common/events'
 import DOMElements from '../common/DOMElements'
 
 export function toggleCapture(capture){
+  return function(dispatch){
+    let evt = new Events();
+    let mainElements = new DOMElements(window);
 
-  let evt = new Events();
-  let mainElements = new DOMElements(window);
+    capture = !capture;
 
-  capture ? evt.setConsoleEventListener(mainElements) : evt.removeConsoleEventListener(mainElements);
+    capture ? evt.setConsoleEventListener(mainElements) : evt.removeConsoleEventListener(mainElements);
 
-  capture = !capture;
-
-    return ({
+    return dispatch({
       type: "SET_CAPTURE",
       payload:{
         configuration:{
           capture: capture
         }
       }
-    });
+    }); 
+      
+   
+  }
+  
 }

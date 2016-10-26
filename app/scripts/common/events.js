@@ -1,13 +1,13 @@
 import Communication from "./communication";
 import Storage from "./storage";
 import DOMElements from "./DOMElements";
-
+import * as site from '../actions/siteActions'
+import { connect } from "react-redux";
+import store from "../store";
 
 
 class Events {
   constructor() {
-
-
     this.consoleFunction = this.consoleFunction.bind(this)
   }
 
@@ -19,7 +19,7 @@ class Events {
   setConsoleEventListener(mainElements) {
     mainElements.consoleContainer.addEventListener('keydown', this.consoleFunction)
   }
-  
+
 
   emmitScript(script) {
     let mainElements = new DOMElements(window);
@@ -59,6 +59,7 @@ class Events {
       let tabUrl = tab.url;
       if (tab && tab.url && code) {
         Storage.setUrlCode(tabUrl, code, ()=> {
+
           console.log("code saved");
         });
       }
@@ -78,7 +79,7 @@ class Events {
         if (lstMessage.className.indexOf("console-error-level") > -1) throw "unvalid JS";
       }
 
-      this.setCode(mainElements, e, code);
+      store.dispatch(site.saveSiteCode(code));
 
     }
 

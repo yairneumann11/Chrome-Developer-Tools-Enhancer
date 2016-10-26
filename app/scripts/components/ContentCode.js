@@ -44,11 +44,6 @@ class ContentCode extends React.Component {
 
 
   componentWillMount(){
-    this.setState({
-      selectedSite: this.props.selectedSite,
-      capture: false,
-      captureClassName:'content_container'
-    })
 
   }
 
@@ -67,25 +62,6 @@ class ContentCode extends React.Component {
     console.log(this);
 
   }
-  showCapture() {
-
-    if(this.state.capture){
-      this.setState({
-          captureClassName:'content_container',
-          capture:false
-        })
-    }else{
-      this.setState({
-          captureClassName:'content_container capture-frame',
-          capture:true
-        })
-    }
-
-    console.log(this);
-
-  }
-
-
 
   render() {
 
@@ -100,7 +76,7 @@ class ContentCode extends React.Component {
         </div>
         <div className="row">
           <div className="col-sm-4">
-            <Sidebar code={this.props.code} setSelectedSite={this.props.setSelectedSite} capture={this.state.capture}  />
+            <Sidebar code={this.props.code} setSelectedSite={this.props.setSelectedSite}   />
           </div>
           <div className="col-sm-8">
             <CodeTable code={this.props.code} selectedSite={this.props.selectedSite}  />

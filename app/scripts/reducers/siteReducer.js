@@ -10,7 +10,15 @@ export function site (state = {
       return {...state, selected_site: action.payload};
       break;
     }
-    case "SET_SITE_CODE": {
+    case "SELECT_SITE": {
+      return {
+        ...state,
+        selected_site: action.payload
+      }
+      break;
+    }
+
+    case "SAVE_SITE_CODE": {
       return {
         ...state,
         selected_site: action.payload

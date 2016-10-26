@@ -1,6 +1,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
+
 import * as site from '../actions/siteActions'
 import * as configuration from '../actions/configurationActions'
 
@@ -34,21 +35,11 @@ class Sidebar extends React.Component {
 
 
   toggleRecording(){
-    // if( !this.props.configuration.capture ){
-    //   this.events.setConsoleEventListener(mainElements);
-    // }else{
-    //   this.events.removeConsoleEventListener(mainElements);
-    // }
-
-    // this.props.toggleCapture();
     this.props.dispatch( configuration.toggleCapture(this.props.configuration.capture) );
-
-
   }
 
   clearCodes() {
     Storage.clear();
-
   }
 
 
@@ -71,9 +62,7 @@ class Sidebar extends React.Component {
       {
         "fa fa-pause header_icon capture": this.props.configuration.capture,
         "fa fa-camera-retro header_icon capture": !this.props.configuration.capture
-
       }
-
     );
 
     return (
@@ -96,7 +85,6 @@ class Sidebar extends React.Component {
       </div>
     );
   };
-
 }
 
 
