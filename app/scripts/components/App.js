@@ -7,6 +7,7 @@ import NoCode from "./NoCode";
 import Utils from "../common/Utils";
 
 import * as site from '../actions/siteActions'
+import * as configuration from '../actions/configurationActions'
 
 
 @connect( (store) => {

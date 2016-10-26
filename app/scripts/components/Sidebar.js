@@ -2,13 +2,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as site from '../actions/siteActions'
+import * as configuration from '../actions/configurationActions'
 
 import Storage from "../common/storage";
 import SidebarItem from "./SidebarItem";
 import Events from "../common/events";
 import DOMElements from "../common/DOMElements";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
-
+import classNames from 'classnames';
 
 
 let mainElements = new DOMElements(window);
@@ -16,7 +17,8 @@ let mainElements = new DOMElements(window);
 @connect( (store) => {
   return {
     selected_site: store.site.selected_site,
-    chrome_storage: store.chrome_storage.chrome_storage
+    chrome_storage: store.chrome_storage.chrome_storage,
+    configuration: store.configuration.configuration
   };
 })
 
@@ -32,13 +34,14 @@ class Sidebar extends React.Component {
 
 
   toggleRecording(){
-    if( !this.props.capture ){
-      this.events.setConsoleEventListener(mainElements);
-    }else{
-      this.events.removeConsoleEventListener(mainElements);
-    }
+    // if( !this.props.configuration.capture ){
+    //   this.events.setConsoleEventListener(mainElements);
+    // }else{
+    //   this.events.removeConsoleEventListener(mainElements);
+    // }
 
-    this.props.toggleCapture();
+    // this.props.toggleCapture();
+    this.props.dispatch( configuration.toggleCapture(this.props.configuration.capture) );
 
 
   }
@@ -64,12 +67,21 @@ class Sidebar extends React.Component {
 
     let sidebarItems = this.renderSidebarItems(this.props.chrome_storage);
 
+    var cls = classNames(
+      {
+        "fa fa-pause header_icon capture": this.props.configuration.capture,
+        "fa fa-camera-retro header_icon capture": !this.props.configuration.capture
+
+      }
+
+    );
+
     return (
       <div >
         <h3 className="page-header">
           Sites
           <i onClick={this.clearCodes} className="fa fa-trash header_icon delete_code"></i>
-          <i onClick={this.toggleRecording} className={this.props.capture ? "fa fa-pause header_icon capture" : "fa fa-camera-retro header_icon capture"}></i>
+          <i onClick={this.toggleRecording} className={cls}></i>
         </h3>
         <hr></hr>
         <nav className="nav nav-pills nav-stacked">
@@ -88,23 +100,4 @@ class Sidebar extends React.Component {
 }
 
 
-
-
-
-
-
-
-// class SidebarItem extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     console.log(this);
-//
-//   }
-//
-//   render(){
-//     return <a className="nav-link truncate" onClick={this.props.setSelectedSite} >{this.props.site}</a>
-//   }
-//
-// }
-//
  export default Sidebar;

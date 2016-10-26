@@ -3,13 +3,13 @@
 import Communication from '../common/Communication'
 
 export function setSite(site, code){
-    return ({
-      type: "SET_SITE_CODE",
-      payload:{
-        site_url:  site,
-        code: code
-      }
-    });
+  return ({
+    type: "SET_SITE_CODE",
+    payload:{
+      site_url:  site,
+      code: code
+    }
+  });
 }
 
 
