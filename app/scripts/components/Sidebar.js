@@ -11,6 +11,7 @@ import Events from "../common/events";
 import DOMElements from "../common/DOMElements";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
 import classNames from 'classnames';
+import Utils from '../common/Utils';
 
 
 let mainElements = new DOMElements(window);
@@ -49,12 +50,15 @@ class Sidebar extends React.Component {
     return codesArr.length && codesArr.map((site, index) =>{
         let siteCode = codes[site];
 
+        console.log(Utils.getDomainFromUrl(site));
+
         return <SidebarItem key={index} site_url={site} code={siteCode} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
       }, this);
 
   }
 
   render() {
+
 
     let sidebarItems = this.renderSidebarItems(this.props.chrome_storage);
 

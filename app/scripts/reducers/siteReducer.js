@@ -42,12 +42,17 @@ export function site (state = {
 
 
 export function sites (state = {
-  chrome_storage:{}
+    chrome_storage:{},
+    storage_loaded: false
 }, action) {
 
   switch (action.type) {
     case "CHROME_STORAGE_DATA": {
-      return {...state,  chrome_storage: action.payload};
+      return { 
+        ...state,  
+        chrome_storage: action.payload.code, 
+        storage_loaded: action.payload.storage_loaded 
+      };
       break;
     }
 

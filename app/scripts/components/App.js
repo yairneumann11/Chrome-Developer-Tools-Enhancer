@@ -2,8 +2,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import Error from "./Error";
 import ContentCode from "./ContentCode";
 import NoCode from "./NoCode";
+import Loader from "./Loader";
 import Utils from "../common/Utils";
 
 import * as site from '../actions/siteActions'
@@ -13,7 +15,9 @@ import * as configuration from '../actions/configurationActions'
 @connect( (store) => {
   return {
     site: store.site.selected_site,
-    chrome_storage: store.chrome_storage.chrome_storage
+    chrome_storage: store.chrome_storage.chrome_storage,
+    storage_loaded: store.chrome_storage.storage_loaded,
+    error: store.configuration.configuration.error
   };
 })
 
@@ -21,7 +25,7 @@ class App extends React.Component {
 
   constructor(props){
     super(props);
-    console.log(this);
+
 
 
     this.toggleLoader = this.toggleLoader.bind(this);
@@ -66,21 +70,26 @@ class App extends React.Component {
     Utils.log("App Render");
     Utils.log(this);
 
-    if( !Object.keys(this.props.chrome_storage).length ){
-      return <NoCode />
+    if( this.props.error ){
+      return <Error />
     }else{
-    return (
-      <div className="container-fluid">
-          <ContentCode code={this.props.code} setSelectedSite={this.props.setSelectedSite} selectedSite={this.props.selectedSite} componentLoaded={this.toggleLoader} />
-      </div>
-    )}
+      if( !this.props.storage_loaded ){
+        return <Loader />
+      }
+
+      if( !Object.keys(this.props.chrome_storage).length ){
+        return <NoCode />
+      }else{
+        return (
+          <div className="container-fluid">
+            <ContentCode code={this.props.code} setSelectedSite={this.props.setSelectedSite} selectedSite={this.props.selectedSite} componentLoaded={this.toggleLoader} />
+          </div>
+        )}
+    }
+
+
+
   }
 }
 
-
-
-
-
 export default App;
-
-

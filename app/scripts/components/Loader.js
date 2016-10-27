@@ -20,7 +20,7 @@ class Loader extends React.Component {
     return (
       <div className="overlay">
         <div className="loading-spinner">
-          <i className="fa fa-spinner" ></i>
+          <i className="fa fa-spinner fa-spin" ></i>
         </div>
       </div>
     );

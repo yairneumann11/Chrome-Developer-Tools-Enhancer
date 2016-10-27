@@ -38,14 +38,12 @@ class CodeTable extends React.Component {
 
 
   renderCodeTableItems(codes, site_url) {
-    let siteCodesArr = this.props.code[this.props.selectedSite];
-    // let codeSessions = this.parseCodeString(codeSessionsStr);
 
     return codes.map((codeSessionArr, index) =>{
         let siteCode  = codeSessionArr[1];
         let timestamp = codeSessionArr[0];
 
-        return <CodeItem key={index} uniquq_id={"code_" + index} index={index} timestamp={timestamp} allSiteCode={siteCodesArr} site={site_url} code={siteCode}  />
+        return <CodeItem key={index} uniquq_id={"code_" + index} index={index} timestamp={timestamp} allSiteCode={codes} site={site_url} code={siteCode}  />
       }, this);
 
   }
@@ -68,7 +66,7 @@ class CodeTable extends React.Component {
     let site_url = this.props.selected_site.site_url;
 
      let codeItems = this.renderCodeTableItems(code, site_url);
-    
+
     return (
 
         <div className="code-container">
@@ -76,9 +74,9 @@ class CodeTable extends React.Component {
             <h3 className="page-header">{this.props.selected_site.site_url}
               <i onClick={this.runAll} className="fa fa-play header_icon play"></i>
             </h3>
+
           </header>
           <hr/>
-
           <main>
             <ReactCSSTransitionGroup
               transitionName="fade"

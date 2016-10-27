@@ -63,10 +63,11 @@ class CodeItem extends React.Component {
   }
 
   deleteCode(codeIndex){
-    debugger;
+
     let site_url = this.props.selected_site.site_url;
     let siteCode = this.props.chrome_storage[site_url];
-    this.props.dispatch( site.deleteSiteCode(site_url, codeIndex, siteCode ,(status)=>{
+    let allCode  = this.props.chrome_storage;
+    this.props.dispatch( site.deleteSiteCode(site_url, codeIndex, siteCode , allCode,(status)=>{
       console.log(status)
     }));
     // Storage.deleteUrlCode(this.props.selected_site.site_url, codeIndex, this.props.chrome_storage ,(status)=>{

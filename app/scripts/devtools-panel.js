@@ -29,6 +29,7 @@ let site;
   }
 
   function renderApp(code, site){
+    console.log(store)
     ReactDOM.render(
       <Provider store={store}>
         <App code={code} selectedSite={site} setSelectedSite={setSelectedSite}/>
@@ -37,34 +38,35 @@ let site;
     );
   }
 
-  function init(storageUpdate){
-    console.log("init")
-    Communication.getCode().then((code)=>{
-      let hasCode =  Object.keys(code).length;
-
-      if( hasCode ){
-
-        site = getSelectedSite(storageUpdate, code);
-
-        renderApp(code, site);
-
-      }else{
-        ReactDOM.render(
-          <NoCode />,
-          document.getElementById('app')
-        );
-      }
-    });
-
-  };
-
-  init();
-
-
-
-chrome.storage.onChanged.addListener((storageUpdate)=> {
-  init(storageUpdate);
-});
+  renderApp();
+//   function init(storageUpdate){
+//     console.log("init")
+//     Communication.getCode().then((code)=>{
+//       let hasCode =  Object.keys(code).length;
+//
+//       if( hasCode ){
+//
+//         site = getSelectedSite(storageUpdate, code);
+//
+//         renderApp(code, site);
+//
+//       }else{
+//         ReactDOM.render(
+//           <NoCode />,
+//           document.getElementById('app')
+//         );
+//       }
+//     });
+//
+//   };
+//
+//   init();
+//
+//
+//
+// chrome.storage.onChanged.addListener((storageUpdate)=> {
+//   init(storageUpdate);
+// });
 
 
 

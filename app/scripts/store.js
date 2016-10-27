@@ -22,6 +22,6 @@ function myService(){
   console.log(arguments);
 }
 
-const middleware = applyMiddleware(promise(),thunk,   logger(), serviceMiddleware);
+const middleware = applyMiddleware(promise(), thunk, logger(), serviceMiddleware);
 
 export default createStore(reducer, middleware);

@@ -18,12 +18,18 @@ export function setSite(site, code){
 export function getSitesCode(){
   return function(dispatch){
     Communication.getCode().then((code)=>{
-      return dispatch( {  type: "CHROME_STORAGE_DATA", payload:code} );
+      return dispatch( {
+        type: "CHROME_STORAGE_DATA",
+        payload:{
+          storage_loaded: true,
+          code
+        }
+      });
     });
   }
 }
 
-export function deleteSiteCode(url, codeIndex, allSiteCode,cb){
+export function deleteSiteCode(url, codeIndex, allSiteCode, allCode,cb){
   return function(dispatch){
     let newCode;
     try{
@@ -36,14 +42,30 @@ export function deleteSiteCode(url, codeIndex, allSiteCode,cb){
         if( !allSiteCode.length ){
           // last code item in site, remove site from storage
           chrome.storage.local.remove(url,(status)=>{
-            console.log(status)
+            console.log(status);
+            delete allCode[url];
+            let sites = Object.keys(allCode);
+            if( sites.length ){
+              return dispatch( {  type: "DELETE_SITE_CODE", payload: {
+                  code: allCode[sites[0]],
+                  site_url: sites[0]
+                }
+              })
+            }
           })
         }else{
           // remove code from site
           newCode = {};
           newCode[url] = allSiteCode;
           chrome.storage.local.set( newCode ,(status)=>{
-            console.log(status)
+            console.log(status);
+
+            return dispatch( {  type: "DELETE_SITE_CODE", payload: {
+                code: allSiteCode,
+                site_url: url
+              }
+            })
+
           })
         }
 
@@ -51,13 +73,6 @@ export function deleteSiteCode(url, codeIndex, allSiteCode,cb){
     }catch (e){
       console.log(e.message);
     }
-
-    return dispatch( {  type: "DELETE_SITE_CODE", payload: {
-        code: allSiteCode,
-        site_url: url
-      }
-    })
-
   }
 }
 

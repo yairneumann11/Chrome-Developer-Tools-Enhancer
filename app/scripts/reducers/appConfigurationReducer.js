@@ -1,6 +1,7 @@
 export function configuration (state = {
   configuration:{
-    capture: false
+    capture: false,
+    error: ""
   }
 }, action) {
 
@@ -10,6 +11,14 @@ export function configuration (state = {
           configuration:{
             capture: action.payload.configuration.capture
           }
+      };
+      break;
+    }
+    case "SET_ERROR": {
+      return {...state,
+        configuration:{
+          error: action.payload.configuration.error
+        }
       };
       break;
     }
