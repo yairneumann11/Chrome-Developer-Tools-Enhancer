@@ -5,13 +5,27 @@ import Storage from '../common/Storage'
 import Utils from '../common/Utils'
 
 export function setSite(site, code){
-  return ({
-    type: "SELECT_SITE",
-    payload:{
-      site_url:  site,
-      code: code
+  return function(dispatch){
+    if( !site ){
+      Communication.getTab().then((tab)=> {
+        return dispatch({
+          type: "SELECT_SITE",
+          payload:{
+            site_url:  tab.url,
+            code: code
+          }
+        })
+      })
     }
-  });
+
+    return dispatch({
+      type: "SELECT_SITE",
+      payload:{
+        site_url:  site,
+        code: code
+      }
+    })
+  }
 }
 
 
@@ -137,6 +151,17 @@ export function getAllCode(){
     Communication.getCode().then((code)=>{
       dispatch( {  type: "CHROME_STORAGE_DATA", payload:code} );
     });
+  }
+}
+
+export function deleteAllCode(){
+  return function(dispatch){
+    chrome.storage.local.clear( ()=>{
+      dispatch( {  type: "CLEAR_STORAGE", payload:{
+        code:{},
+        storage_loaded:true
+      }});
+    })
   }
 }
 

@@ -1,6 +1,11 @@
 
 import React from "react";
 
+import store from "../store";
+import * as site from '../actions/siteActions'
+import * as configuration from '../actions/configurationActions'
+import { connect } from "react-redux";
+
 import Storage from "../common/storage";
 import Events from "../common/events";
 import DOMElements from "../common/DOMElements";
@@ -19,9 +24,12 @@ class NoCode extends React.Component {
 
   runScript(e) {
     let code = "console.log('hello PDW')";
-    this.events.setConsoleEventListener(mainElements);
+    store.dispatch(configuration.toggleCapture(false));
+    // this.events.setConsoleEventListener(mainElements);
     this.events.emmitScript(code);
-    this.events.setCode(mainElements,e,code);
+    // this.events.setCode(mainElements,e,code);
+    // store.dispatch(site.saveSiteCode(code));
+    store.dispatch( site.saveSiteCode(code) );
 
   }
 

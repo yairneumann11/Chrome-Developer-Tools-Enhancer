@@ -57,5 +57,17 @@ export function sites (state = {
     }
 
   }
+  
+  switch (action.type) {
+    case "CLEAR_STORAGE": {
+      return { 
+        ...state,  
+        chrome_storage: action.payload.code, 
+        storage_loaded: action.payload.storage_loaded 
+      };
+      break;
+    }
+
+  }
   return state
 }

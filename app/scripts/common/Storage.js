@@ -1,4 +1,7 @@
 import Utils from "./Utils";
+import * as site from '../actions/siteActions'
+import { connect } from "react-redux";
+import store from "../store";
 
 class Storage {
   constructor(window) {
@@ -7,6 +10,7 @@ class Storage {
 
   static clear() {
     chrome.storage.local.clear();
+    store.dispatch(site.deleteAllCode())
   }
 
   static onStorageChange(fn) {
