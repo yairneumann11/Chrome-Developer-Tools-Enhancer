@@ -4,7 +4,7 @@ import Communication from '../common/Communication'
 import Storage from '../common/Storage'
 import Utils from '../common/Utils'
 
-export function setSite(site, code){
+export function setSite(site, data){
   return function(dispatch){
     if( !site ){
       Communication.getTab().then((tab)=> {
@@ -12,7 +12,8 @@ export function setSite(site, code){
           type: "SELECT_SITE",
           payload:{
             site_url:  tab.url,
-            code: code
+            code: data.code,
+            label: data.label
           }
         })
       })
@@ -22,7 +23,8 @@ export function setSite(site, code){
       type: "SELECT_SITE",
       payload:{
         site_url:  site,
-        code: code
+        code: data.code,
+        label: data.label
       }
     })
   }
@@ -31,7 +33,7 @@ export function setSite(site, code){
 
 export function getSitesCode(){
   return function(dispatch){
-    Communication.getCode().then((code)=>{
+    Storage.getCode().then((code)=>{
       return dispatch( {
         type: "CHROME_STORAGE_DATA",
         payload:{
@@ -91,19 +93,33 @@ export function deleteSiteCode(url, codeIndex, allSiteCode, allCode,cb){
 }
 
 export function saveSiteCode(code){
+
+  let site_obj = {
+    code: [],
+    site_url: "",
+    label: ""
+  };
+
   return function(dispatch){
     Communication.getTab().then((tab)=> {
 
       let tabUrl = tab.url;
-
       if (tab && tab.url && code) {
-        Storage.setUrlCode(tabUrl, code, (timestamp)=> {
+
+        site_obj = {
+          code: code,
+          site_url: tab.url,
+          label: tab.url
+        };
+
+        Storage.setUrlCode(tabUrl, site_obj, (timestamp)=> {
           console.log("code saved");
 
           Storage.getCode().then( (code)=>{
             return dispatch( {  type: "SAVE_SITE_CODE", payload: {
-                code: code[tab.url],
-                site_url: tab.url
+                code: code[tab.url].code,
+                site_url: tab.url,
+                label: code[tab.url].label
               }
             })
           });

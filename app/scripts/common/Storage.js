@@ -69,21 +69,24 @@ class Storage {
     }
   }
 
-  static setUrlCode(url,code, cb){
+  static setUrlCode(selected_site_url,data, cb){
 
-    this.getCode(url).then((savedCode)=>{
+    this.getCode(selected_site_url).then((savedCode)=>{
       let timestamp = (new Date).getTime();
       let output;
-      let newCodeArr = [timestamp, code];
+      let newCodeArr = [timestamp, data.code];
 
 
 
-      if( savedCode && savedCode[url] ){
-        savedCode[url].push(newCodeArr);
+      if( savedCode && savedCode[selected_site_url] ){
+        savedCode[selected_site_url].code.push(newCodeArr);
         output = savedCode;
       }else{
         output = {};
-        output[url] = [newCodeArr];
+        output[selected_site_url] = {
+          code: [newCodeArr],
+          label: "label_" + selected_site_url
+        }
       }
 
       chrome.storage.local.set(output, () => {

@@ -33,6 +33,10 @@ class SidebarItem extends React.Component {
 
   }
 
+  editSiteLabel (){
+
+  }
+
   render(){
 
     var cls = classNames(
@@ -41,8 +45,13 @@ class SidebarItem extends React.Component {
       { "selected-nav-link": this.props.site_url === this.props.selected_site.site_url }
     );
 
-    return <a className={cls} onClick={this.setSelectedSite.bind(this)} >{this.props.site_url}</a>
+    var site_name = this.props.selected_site.label || this.props.site_url;
+
+    return <a className={cls} onClick={this.setSelectedSite.bind(this)} >{site_name}
+      <i onClick={this.editSiteLabel()} className="fa fa-edit"></i>
+    </a>
   }
+
 
 }
 
