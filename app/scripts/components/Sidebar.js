@@ -48,11 +48,11 @@ class Sidebar extends React.Component {
     let codesArr = Object.keys(codes);
 
     return codesArr.length && codesArr.map((site, index) =>{
-        let siteCode = codes[site];
+        let siteObj = codes[site];
 
         console.log(Utils.getDomainFromUrl(site));
 
-        return <SidebarItem key={index} site_url={site} code={siteCode} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
+        return <SidebarItem key={index} site_url={site} code={siteObj.code} label={siteObj.label} setSelectedSite={this.props.setSelectedSite.bind(null, site)} />
       }, this);
 
   }

@@ -28,8 +28,9 @@ class SidebarItem extends React.Component {
   setSelectedSite(){
     let code = this.props.code;
     let site_url = this.props.site_url;
+    let label = this.props.label;
 
-    this.props.dispatch( site.setSite(site_url, code) );
+    this.props.dispatch( site.setSite(site_url, code, label) );
 
   }
 
@@ -45,7 +46,7 @@ class SidebarItem extends React.Component {
       { "selected-nav-link": this.props.site_url === this.props.selected_site.site_url }
     );
 
-    var site_name = this.props.selected_site.label || this.props.site_url;
+    var site_name = this.props.label || this.props.site_url;
 
     return <a className={cls} onClick={this.setSelectedSite.bind(this)} >{site_name}
       <i onClick={this.editSiteLabel()} className="fa fa-edit"></i>

@@ -36,8 +36,12 @@ class ContentCode extends React.Component {
 
     if( !this.props.selected_site.site_url && this.props.chrome_storage )     {
       let chrome_storage = this.props.chrome_storage;
-      let firstSite = Object.keys(chrome_storage)[0];
-      this.props.dispatch(site.setSite( firstSite, chrome_storage[firstSite]  ));
+
+      let first_site_url = Object.keys(chrome_storage)[0];
+      let code = chrome_storage[first_site_url].code;
+      let label = chrome_storage[first_site_url].label;
+
+      this.props.dispatch(site.setSite( first_site_url, code, label  ));
     }
 
   }
